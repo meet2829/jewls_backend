@@ -18,8 +18,7 @@ connectDB();
 // Routes with prefixes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api", orderRoutes);
-
+app.use("/api/orders", orderRoutes);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

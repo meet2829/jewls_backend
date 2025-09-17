@@ -7,6 +7,6 @@ router.get("/", getOrders); // GET all orders
 router.get("/:id", getOrderDetails); // GET single order details
 
 // Place order
-router.post("/orders", orderController.createOrder);
+router.post("/", orderController.createOrder);
 
 module.exports = router;
