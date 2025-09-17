@@ -3,9 +3,6 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
-const bodyParser = require('body-parser');
-
-
 
 const app = express();
 
@@ -16,13 +13,11 @@ app.use(express.json());
 // Database
 connectDB();
 
-// Routes
-app.use("/", authRoutes);
-app.use("/", productRoutes);
-
-
+// Routes with prefixes
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

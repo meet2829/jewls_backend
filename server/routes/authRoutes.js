@@ -1,18 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("../controller/authController");
-const productController = require("../controller/productController");
 
+// Auth
 router.post("/register", authController.register);
 router.post("/login", authController.login);
-router.post('/contact',authController.Contact)
 
-router.post("/products", productController.addProduct);     // Add product
-router.get("/products", productController.getAllProducts); 
+// Contact
+router.post("/contact", authController.Contact);
 
+// OTP
+router.post("/send-otp", authController.emialotp);
+router.post("/verify-otp", authController.verifyotp);
 
-router.post('/send-otp', authController.emialotp);
-
-router.post('/verify-otp',authController.verifyotp);
+// Users
+router.get("/users", authController.getAllUsers);
 
 module.exports = router;

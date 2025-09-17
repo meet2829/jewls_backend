@@ -79,3 +79,19 @@ exports.verifyotp = (req, res) => {
   }
   return res.status(400).json({ message: 'Invalid OTP' });
 };
+
+// Get all users
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await Employee.find({});
+    // Format response to include `id`
+    const formatted = users.map(u => ({
+      id: u._id,
+      name: u.name,
+      email: u.email
+    }));
+    res.json(formatted);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching users", error });
+  }
+};

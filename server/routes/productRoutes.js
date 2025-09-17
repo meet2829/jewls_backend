@@ -3,31 +3,21 @@ const router = express.Router();
 const productController = require("../controller/productController");
 const Product=require("../model/product")
 
-router.post("/products", productController.addProduct);     // Add product
-router.get("/products", productController.getAllProducts);  // Fetch all products
-// server.js or routes/product.js
-router.get("/products/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
 
-    // Validate ID format (MongoDB IDs must be 24 hex chars)
-    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-      return res.status(400).json({ message: "Invalid product ID" });
-    }
+// Add product
+router.post("/products", productController.addProduct);
 
-    const product = await Product.findById(id);
+// Get all products
+router.get("/products", productController.getAllProducts);
 
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
+// Get single product
+router.get("/products/:id", productController.getProductById); 
 
-    res.json(product);
-  } catch (err) {
-    console.error("Error fetching product by ID:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
+// Update product
+router.put("/products/:id", productController.updateProduct);
 
+// Delete product
+router.delete("/products/:id", productController.deleteProduct);
 
 
 module.exports = router;
