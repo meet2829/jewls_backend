@@ -26,14 +26,17 @@ exports.createOrder = async (req, res) => {
 };
 
 
+
 exports.getOrders = async (req, res) => {
   try {
     const orders = await Order.find()
-      .populate("user", "name email") // populate user details
+      .populate("user", "name email")   // populate user details
       .populate("items.product", "name price"); // populate product details
+
     res.json(orders);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch orders" });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ message: "Error fetching orders", error });
   }
 };
 
