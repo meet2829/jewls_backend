@@ -22,7 +22,6 @@ exports.createOrder = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Error placing order", error });
   }
-  
 };
 
 
@@ -31,7 +30,7 @@ exports.getOrders = async (req, res) => {
   try {
     const orders = await Order.find()
       .populate("user", "name email")   // populate user details
-      .populate("items.product", "name price"); // populate product details
+      .populate("items.product", "name price imageUrl"); // populate product details
 
     res.json(orders);
   } catch (error) {
