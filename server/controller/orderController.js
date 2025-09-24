@@ -53,3 +53,30 @@ exports.getOrderDetails = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch order details" });
   }
 };
+
+
+exports.UpdateOrderStatus=async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    // Validate status (must be one of enum values)
+    if (!["Pending", "Shipped", "Delivered", "Cancelled"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status value" });
+    }
+
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.json(updatedOrder);
+  } catch (err) {
+    console.error("Error updating order:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
