@@ -4,7 +4,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
-
+const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
 
@@ -19,6 +19,7 @@ connectDB();
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/payment",paymentRoutes)
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
