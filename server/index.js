@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const connectDB = require("./server/config/db");
-const authRoutes = require("./server/routes/authRoutes");
-const productRoutes = require("./server/routes/productRoutes");
-const orderRoutes = require("./server/routes/orderRoutes");
-const paymentRoutes = require("./server/routes/paymentRoutes");
+const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
+const productRoutes = require("./routes/productRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
 
