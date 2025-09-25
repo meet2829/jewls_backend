@@ -8,6 +8,7 @@ router.post("/login", authController.login);
 
 // Contact
 router.post("/contact", authController.Contact);
+router.get("/massage",authController.massage)
 
 // OTP
 router.post("/send-otp", authController.emialotp);

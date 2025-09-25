@@ -49,6 +49,18 @@ exports.Contact = async (req, res) => {
   }
 };
 
+// get contect details
+exports.massage=async (req, res) => {
+  try {
+    const contacts = await Contact.find().sort({ createdAt: -1 });
+    res.json(contacts);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch contacts" });
+  }
+}
+
+
+
 //  Send OTP
 exports.emialotp = async (req, res) => {
   try {
