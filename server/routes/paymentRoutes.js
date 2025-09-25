@@ -1,36 +1,26 @@
-const express=require("express");
+const express = require("express");
 const Razorpay = require("razorpay");
-const router=express.Router();
+const router = express.Router();
 
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
-const rozerpay= new Rozerpay({
-     key_id: process.env.RAZORPAY_KEY_ID, 
-  key_secret: process.env.RAZORPAY_KEY_SECRET, 
-})
-
-
-router.post("/create-order",async(req,res)=>{
-
-   try {
-
-    const {amount}=req.body
-
-    const option={
-      amount: amount * 100, 
+router.post("/create-order", async (req, res) => {
+  try {
+    const options = {
+      amount: req.body.amount * 100, // convert Rs to paise
       currency: "INR",
-      receipt: `order_rcptid_${Date.now()}`,
+      receipt: `receipt_${Date.now()}`,
     };
 
-    const order=await rozerpay.orders.create(option)
-    res.json(order)
-    
-   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Payment initiation failed" });
-    
-   }
+    const order = await razorpay.orders.create(options);
+    res.json(order);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to create Razorpay order" });
+  }
 });
 
 module.exports = router;
-
-
