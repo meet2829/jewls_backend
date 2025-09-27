@@ -21,6 +21,8 @@ app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payment",paymentRoutes)
 
+app.get('/loaderio-5d382e357ef13e8e5a4802026a75d186.txt', (req, res) => res.type('text').send('loaderio-<token>'));
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
