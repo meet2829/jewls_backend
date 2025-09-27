@@ -73,7 +73,7 @@ router.post("/track-usage", async (req, res) => {
 router.get("/usage", async (req, res) => {
   try {
     const coupons = await CouponUsage.find()
-      .populate("userId", "name email") // show user info
+      .populate("user", "name email") // show user info
       .lean();
 
     res.json(coupons);

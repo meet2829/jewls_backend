@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const couponUsageSchema = new mongoose.Schema(
   {
     code: { type: String, required: true },          // coupon code
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
     totalBeforeDiscount: { type: Number, required: true },
     discountAmount: { type: Number, required: true },
     totalAfterDiscount: { type: Number, required: true },
