@@ -2,13 +2,12 @@ const mongoose = require("mongoose");
 
 const couponUsageSchema = new mongoose.Schema(
   {
-    code: { type: String, required: true },          // coupon code
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
+    code: { type: String, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }, // FIXED
     totalBeforeDiscount: { type: Number, required: true },
     discountAmount: { type: Number, required: true },
     totalAfterDiscount: { type: Number, required: true },
   },
   { timestamps: true }
 );
-
 module.exports = mongoose.model("CouponUsage", couponUsageSchema);

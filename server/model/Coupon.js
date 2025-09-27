@@ -6,11 +6,11 @@ const couponSchema = new mongoose.Schema({
   discountValue: { type: Number, required: true },
   expiryDate: { type: Date, required: true },
   isActive: { type: Boolean, default: true },
-  usedCount: { type: Number, default: 0 },// to track usage
+  usedCount: { type: Number, default: 0 },
   usedBy: [
     {
-      userId: { type: mongoose.Schema.Types.ObjectId, ref: "u   ser" },
-      amount: Number, 
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" }, // FIXED
+      amount: Number,
       date: { type: Date, default: Date.now }
     }
   ]
