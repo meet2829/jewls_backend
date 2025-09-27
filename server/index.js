@@ -5,6 +5,7 @@ const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const couponRoutes = require("./routes/couponRoutes");
 
 const app = express();
 
@@ -20,7 +21,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payment",paymentRoutes)
+app.use("/api/coupon", couponRoutes);
 
+
+//for test
 app.get('/loaderio-5d382e357ef13e8e5a4802026a75d186.txt', (req, res) => res.type('text').send('loaderio-<token>'));
 
 
