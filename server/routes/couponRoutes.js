@@ -30,6 +30,11 @@ router.post("/apply", async (req, res) => {
 
     // Increment used count
     coupon.usedCount += 1;
+    coupon.usedBy.push({
+  userId: req.body.userId,
+  amount: req.body.amount,
+  date: new Date()
+});
     await coupon.save();
 
   } catch (error) {
@@ -37,5 +42,44 @@ router.post("/apply", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
+
+router.post("/track-usage", async (req, res) => {
+  try {
+    const { code, userId, totalBeforeDiscount, discountAmount, totalAfterDiscount } = req.body;
+
+    if (!code || !userId) {
+      return res.status(400).json({ message: "Coupon code and userId required" });
+    }
+
+    const usage = new CouponUsage({
+      code,
+      userId,
+      totalBeforeDiscount,
+      discountAmount,
+      totalAfterDiscount,
+    });
+
+    await usage.save();
+    res.json({ message: "Coupon usage tracked successfully", usage });
+  } catch (err) {
+    res.status(500).json({ message: "Error tracking coupon usage", error: err });
+  }
+});
+
+
+router.get("/usage", async (req, res) => {
+  try {
+    const coupons = await CouponUsage.find()
+      .populate("userId", "name email") // show user info
+      .lean();
+
+    res.json(coupons);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching coupon usage", error: err });
+  }
+});
+
 
 module.exports = router;
