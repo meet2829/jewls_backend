@@ -74,6 +74,7 @@ router.get("/usage", async (req, res) => {
   try {
     const coupons = await CouponUsage.find()
       .populate("userId", "name email") 
+      .populate("orderId", "total items")
       .lean();
 
     res.json(coupons);
@@ -81,6 +82,4 @@ router.get("/usage", async (req, res) => {
     res.status(500).json({ message: "Error fetching coupon usage", error: err });
   }
 });
-
-
 module.exports = router;
