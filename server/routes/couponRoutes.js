@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const Coupon = require("../model/Coupon");
+const CouponUsage =require ("../model/CouponUsage")
 
 router.post("/apply", async (req, res) => {
   try {
