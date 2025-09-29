@@ -63,7 +63,7 @@ exports.createOrder = async (req, res) => {
     const { amount, orderId } = req.body;
     
     const options = {
-      amount: Math.round(amount), // amount in paise
+      amount: amount, // amount in paise
       currency: "INR",
       receipt: `receipt_${orderId}_${Date.now()}`
     };
