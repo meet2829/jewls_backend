@@ -57,26 +57,3 @@ exports.deleteProduct = async (req, res) => {
 };
 
 
-// controller/paymentController.js
-exports.createOrder = async (req, res) => {
-  try {
-    const { amount, orderId } = req.body;
-    
-    const options = {
-      amount: amount, // amount in paise
-      currency: "INR",
-      receipt: `receipt_${orderId}_${Date.now()}`
-    };
-
-    const razorpayOrder = await instance.orders.create(options);
-    
-    res.json({
-      id: razorpayOrder.id,
-      amount: razorpayOrder.amount,
-      currency: razorpayOrder.currency
-    });
-  } catch (error) {
-    console.error("Razorpay order error:", error);
-    res.status(500).json({ message: "Error creating payment order", error });
-  }
-};
