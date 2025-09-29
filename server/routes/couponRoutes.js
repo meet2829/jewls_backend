@@ -48,7 +48,7 @@ router.post("/apply", async (req, res) => {
 
 router.post("/track-usage", async (req, res) => {
   try {
-    const { code, userId, totalBeforeDiscount, discountAmount, totalAfterDiscount } = req.body;
+    const { code, userId, totalBeforeDiscount, discountAmount, totalAfterDiscount,orderId } = req.body;
 
     if (!code || !userId) {
       return res.status(400).json({ message: "Coupon code and userId required" });
