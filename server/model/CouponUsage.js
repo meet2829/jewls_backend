@@ -4,7 +4,7 @@ const couponUsageSchema = new mongoose.Schema(
   {
     code: { type: String, required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }, 
-    orderId: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
+    orderId: { type: mongoose.Schema.Types.ObjectId, ref: "Order",required: true  },
     totalBeforeDiscount: { type: Number, required: true },
     discountAmount: { type: Number, required: true },
     totalAfterDiscount: { type: Number, required: true },
