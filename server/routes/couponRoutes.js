@@ -57,6 +57,7 @@ router.post("/track-usage", async (req, res) => {
     const usage = new CouponUsage({
       code,
       userId,
+      orderId,
       totalBeforeDiscount,
       discountAmount,
       totalAfterDiscount,
