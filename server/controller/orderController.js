@@ -1,5 +1,6 @@
 // controller/orderController.js
 const Order = require("../model/order");
+const Product=require("../model/product")
 
 exports.createOrder = async (req, res) => {
   try {
@@ -10,6 +11,22 @@ exports.createOrder = async (req, res) => {
       return res.status(400).json({ message: "Invalid order data" });
     }
 
+//  Check stock before creating order
+    for (let item of items) {
+      const product = await Product.findById(item.product);
+
+      if (!product) {
+        return res.status(404).json({ message: `Product not found: ${item.product}` });
+      }
+
+      if (product.Stock < item.quantity) {
+        return res.status(400).json({ 
+          message: `Not enough stock for ${product.name}. Available: ${product.Stock}` 
+        });
+      }
+    }
+
+        // Create order
     const newOrder = new Order({
       user,
       userName,
@@ -22,6 +39,15 @@ exports.createOrder = async (req, res) => {
     });
 
     await newOrder.save();
+    
+     // ✅ Step 3: Reduce stock after order is created
+
+     for (let item of items) {
+      await Product.findByIdAndUpdate(
+        item.product,
+        { $inc: { Stock: -item.quantity } } // reduce stock
+      );
+    }
     
     // Populate the saved order before sending response
     const populatedOrder = await Order.findById(newOrder._id)
