@@ -6,6 +6,8 @@ const productSchema = new mongoose.Schema({
   oldPrice: Number,
   description: String,
   imageUrl: String,
+  overview: { type: String },
+  images: [{ type: String }],
   category: String,
   Stock:Number,
   rating: String,
@@ -13,3 +15,4 @@ const productSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Product', productSchema);
+
