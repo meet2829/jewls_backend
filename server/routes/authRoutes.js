@@ -13,6 +13,7 @@ router.get("/massage",authController.massage)
 // OTP
 router.post("/send-otp", authController.emialotp);
 router.post("/verify-otp", authController.verifyotp);
+router.post("/reset-password", authController.resetPassword);
 
 // Users
 router.get("/users", authController.getAllUsers);

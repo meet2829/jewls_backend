@@ -107,3 +107,22 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ message: "Error fetching users", error });
   }
 };
+
+// Reset Password
+exports.resetPassword = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    const user = await Employee.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    user.password = newPassword; // 🔴 Not secure right now
+    await user.save();
+
+    res.json({ message: "Password reset successful" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err });
+  }
+};
+
