@@ -113,17 +113,20 @@ exports.resetPassword = async (req, res) => {
   try {
     const { email, newPassword } = req.body;
 
+    // validation
     if (!email || !newPassword) {
       return res.status(400).json({ message: "Email and new password are required" });
     }
 
+    // find user
     const user = await Employee.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Directly update instead of save()
-    await Employee.updateOne({ email }, { $set: { password: newPassword } });
+    // update password
+    user.password = newPassword;
+    await user.save();
 
     res.json({ message: "Password reset successful" });
   } catch (err) {
@@ -131,4 +134,3 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
-
