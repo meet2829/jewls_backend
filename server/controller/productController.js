@@ -162,4 +162,12 @@ exports.getProductBycategories= async (req, res) => {
         });
     }
 };
-module.exports = exports;
+module.export = {
+  addProduct: exports.addProduct,
+  getAllProducts: exports.getAllProducts,
+  getProductById: exports.getProductById,
+  updateProduct: exports.updateProduct,
+  deleteProduct: exports.deleteProduct,
+  searchProduct: exports.searchProduct,
+  getProductBycategories: exports.getProductBycategories
+};
