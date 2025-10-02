@@ -15,7 +15,10 @@ exports.addProduct = async (req, res) => {
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
-    res.json(products);
+    res.json({
+      success: true,
+      products
+    });
   } catch (err) {
     res.status(500).json({ message: "Error fetching products", error: err });
   }
