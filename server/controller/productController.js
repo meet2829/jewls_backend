@@ -56,4 +56,110 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
+exports.searchProduct = async (req, res) => {
+    try {
+        const { 
+            q: searchTerm, 
+            category, 
+            minPrice, 
+            maxPrice, 
+            sortBy, 
+            onSale,
+            page = 1, 
+            limit = 12 
+        } = req.query;
+        
+        let query = {};
+        
+        // Text search across name, description, overview, category
+        if (searchTerm && searchTerm.length > 0) {
+            query.$or = [
+                { name: { $regex: searchTerm, $options: 'i' } },
+                { description: { $regex: searchTerm, $options: 'i' } },
+                { overview: { $regex: searchTerm, $options: 'i' } },
+                { category: { $regex: searchTerm, $options: 'i' } }
+            ];
+        }
+        
+        // Filter by category
+        if (category && category !== 'all') {
+            query.category = category;
+        }
+        
+        // Price range filter
+        if (minPrice || maxPrice) {
+            query.price = {};
+            if (minPrice) query.price.$gte = parseFloat(minPrice);
+            if (maxPrice) query.price.$lte = parseFloat(maxPrice);
+        }
+        
+        // Sale filter
+        if (onSale === 'true') {
+            query.sale = true;
+        }
+        
+        // Stock filter (only show in-stock items)
+        query.Stock = { $gt: 0 };
+        
+        // Sort options
+        let sortOptions = {};
+        switch(sortBy) {
+            case 'price-low':
+                sortOptions = { price: 1 };
+                break;
+            case 'price-high':
+                sortOptions = { price: -1 };
+                break;
+            case 'name':
+                sortOptions = { name: 1 };
+                break;
+            case 'rating':
+                sortOptions = { rating: -1 };
+                break;
+            case 'newest':
+            default:
+                sortOptions = { _id: -1 };
+        }
+        
+        const products = await Product.find(query)
+            .sort(sortOptions)
+            .limit(limit * 1)
+            .skip((page - 1) * limit)
+            .exec();
+            
+        const total = await Product.countDocuments(query);
+        
+        res.json({
+            success: true,
+            products,
+            total,
+            page: parseInt(page),
+            totalPages: Math.ceil(total / limit)
+        });
+        
+    } catch (error) {
+        console.error('Search error:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: 'Search failed' 
+        });
+    }
+};
 
+// Get all categories for filter dropdown
+router.get('/categories', async (req, res) => {
+    try {
+        const categories = await Product.distinct('category');
+        res.json({
+            success: true,
+            categories: categories.filter(cat => cat) // remove null/undefined
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            success: false, 
+            error: 'Failed to fetch categories' 
+        });
+    }
+});
+
+module.exports = router;
