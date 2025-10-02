@@ -1,4 +1,5 @@
 const Product = require("../model/product");
+const router = require("../routes/productRoutes");
 
 // ➕ Add Product
 exports.addProduct = async (req, res) => {
@@ -147,7 +148,7 @@ exports.searchProduct = async (req, res) => {
 };
 
 // Get all categories for filter dropdown
-router.get('/categories', async (req, res) => {
+exports.getProductBycategories= async (req, res) => {
     try {
         const categories = await Product.distinct('category');
         res.json({
@@ -160,6 +161,5 @@ router.get('/categories', async (req, res) => {
             error: 'Failed to fetch categories' 
         });
     }
-});
-
-module.exports = router;
+};
+module.exports = exports;
