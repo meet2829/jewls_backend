@@ -1,5 +1,4 @@
 const Product = require("../model/product");
-const router = require("../routes/productRoutes");
 
 // ➕ Add Product
 exports.addProduct = async (req, res) => {

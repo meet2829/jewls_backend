@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
   oldPrice: Number,
   description: String,
   imageUrl: String,
-  overview: { type: String },
+  Overview: { type: String },
   images: [{ type: String }],
   category: String,
   Stock:Number,
@@ -15,3 +15,4 @@ const productSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Product', productSchema);
+
