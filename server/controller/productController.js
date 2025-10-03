@@ -3,6 +3,8 @@ const Product = require("../model/product");
 // ➕ Add Product
 exports.addProduct = async (req, res) => {
   try {
+
+    console.log("Incoming product data:", req.body);
     const product = await Product.create(req.body);
     res.status(201).json(product);
   } catch (err) {
